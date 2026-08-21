@@ -3,10 +3,23 @@ import { readFileSync, realpathSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const AGENT_EMAILS = [/cursoragent@cursor\.com/i, /noreply@anthropic\.com/i, /noreply@openai\.com/i];
+const AGENT_EMAILS = [
+    /cursoragent@cursor\.com/i,
+    /noreply@anthropic\.com/i,
+    /noreply@openai\.com/i,
+    /noreply@aider\.chat/i,
+    /openhands@all-hands\.dev/i,
+    /noreply@jules\.google/i,
+    /copilot@github\.com/i,
+    // GitHub bot accounts commit as <id>+<login>[bot]@users.noreply.github.com.
+    // The numeric id varies by product and rollout, so match the login only.
+    /\+(copilot|copilot-swe-agent|devin-ai-integration|google-labs-jules|amazon-q-developer|gemini-code-assist|cline|continue|sourcegraph-cody|jetbrains-ai|coderabbitai|openai-codex|chatgpt-codex-connector|claude|anthropic-claude|claude-code-action|cursor)(\[bot\])?@users\.noreply\.github\.com$/i,
+];
 
+// Bare names that are safe to match without an email anchor. Human names like
+// "Devin" or "Jules" are excluded on purpose; those agents are matched by email.
 const AGENT_NAMES =
-    /^(cursor(\s+agent)?|claude(\s+code)?(\s+\S+)*|codex|chatgpt(\s+codex)?|openai[- ]codex)$/i;
+    /^(cursor(\s+agent)?|claude(\s+code)?(\s+\S+)*|codex|chatgpt(\s+codex)?|openai[- ]codex|copilot|copilot-swe-agent|google-labs-jules|aider(\s+\(.*\))?|openhands|opencode|amazon\s+q(\s+developer)?|gemini\s+code\s+assist)(\[bot\])?$/i;
 
 const ATTRIBUTION_TRAILER_KEYS = /^(made-with|generated-with|generated-by|codex-session-id)$/i;
 
@@ -15,7 +28,8 @@ const GENERATED_WITH_LINE = /^(?:[\u{1F916}\u{2728}]\s*)?(?:generated|made)\s+wi
 const CO_AUTHORED_BY = /^\s*co-authored-by:\s*(.+?)\s*$/i;
 
 /**
- * Drop Cursor, Claude, and Codex commit attribution from a message.
+ * Drop commit attribution from Cursor, Claude, Codex, Copilot, Devin, Jules,
+ * Aider, OpenHands, opencode, Amazon Q, and Gemini Code Assist.
  * Human Co-authored-by trailers and the rest of the body stay.
  */
 export function stripAiCommitAttribution(message) {
@@ -70,7 +84,9 @@ function isAgentCoAuthor(value) {
 }
 
 function mentionsAgent(text) {
-    return /\b(cursor|claude|codex|chatgpt)\b/i.test(text);
+    return /\b(cursor|claude|codex|chatgpt|copilot|devin|jules|aider|openhands|opencode|gemini)\b/i.test(
+        text,
+    );
 }
 
 function collapseBlankLines(lines) {
