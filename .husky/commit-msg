@@ -1,0 +1,1 @@
+node strip-clanker-attribution.mjs "$1"

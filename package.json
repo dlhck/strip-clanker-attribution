@@ -1,0 +1,47 @@
+{
+  "name": "strip-clanker-attribution",
+  "version": "1.0.0",
+  "description": "Strip Cursor, Claude, and Codex attribution from commit messages. Built for husky commit-msg hooks.",
+  "type": "module",
+  "exports": "./strip-clanker-attribution.mjs",
+  "bin": {
+    "strip-clanker-attribution": "./strip-clanker-attribution.mjs",
+    "strip-clanker-attribution-init": "./init.mjs"
+  },
+  "files": [
+    "strip-clanker-attribution.mjs",
+    "init.mjs"
+  ],
+  "scripts": {
+    "test": "node --test strip-clanker-attribution.spec.mjs",
+    "preversion": "npm test",
+    "prepublishOnly": "npm test",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlhck/strip-clanker-attribution.git"
+  },
+  "bugs": "https://github.com/dlhck/strip-clanker-attribution/issues",
+  "homepage": "https://github.com/dlhck/strip-clanker-attribution#readme",
+  "keywords": [
+    "husky",
+    "commit-msg",
+    "git-hooks",
+    "co-authored-by",
+    "attribution",
+    "cursor",
+    "claude",
+    "codex"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
