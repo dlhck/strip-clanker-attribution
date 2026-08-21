@@ -1,12 +1,12 @@
 # strip-clanker-attribution
 
-Strip Cursor, Claude, and Codex attribution from commit messages. Built for husky `commit-msg` hooks.
+Strip coding-agent attribution from commit messages. Covers Cursor, Claude, Codex, Copilot, Devin, Jules, Aider, OpenHands, opencode, Amazon Q, and Gemini Code Assist. Built for husky `commit-msg` hooks.
 
 Coding agents like to sign their work. This tool removes that signature before the commit lands, so your history stays clean and commitlint never chokes on a trailer it doesn't expect.
 
 It removes:
 
-- Agent co-author trailers, for example `Co-authored-by: Cursor <cursoragent@cursor.com>` or `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`. Human co-authors stay.
+- Agent co-author trailers, for example `Co-authored-by: Cursor <cursoragent@cursor.com>`, `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`, or `Co-authored-by: Copilot <198982749+Copilot@users.noreply.github.com>`. Human co-authors stay, including humans who happen to be named Devin or Jules — those agents are matched by their service email, not the name.
 - Attribution trailers such as `Made-with: Cursor`, `Generated-by: Claude Code`, and `Codex-Session-Id: ses_123`.
 - Signature lines like `🤖 Generated with [Claude Code](https://claude.com/claude-code)`.
 

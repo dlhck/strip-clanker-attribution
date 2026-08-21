@@ -48,6 +48,48 @@ test('strips agent co-author trailers with a bare email and no name', () => {
     assert.equal(stripAiCommitAttribution(message), 'fix(api): handle timeouts\n');
 });
 
+test('strips Copilot, Devin, Jules, and Aider attribution', () => {
+    const message = [
+        'feat(api): add retry logic',
+        '',
+        'Co-authored-by: Copilot <198982749+Copilot@users.noreply.github.com>',
+        'Co-authored-by: copilot-swe-agent[bot] <198982749+copilot@users.noreply.github.com>',
+        'Co-authored-by: Copilot <167198135+copilot[bot]@users.noreply.github.com>',
+        'Co-authored-by: Copilot copilot@github.com',
+        'Co-Authored-By: Devin <158243242+devin-ai-integration[bot]@users.noreply.github.com>',
+        'Co-authored-by: google-labs-jules[bot] <161369871+google-labs-jules[bot]@users.noreply.github.com>',
+        'Co-authored-by: Jules <noreply@jules.google>',
+        'Co-authored-by: aider (gpt-4o) <noreply@aider.chat>',
+        'Co-authored-by: openhands <openhands@all-hands.dev>',
+        'Co-authored-by: opencode <opencode@example.com>',
+        'Co-authored-by: amazon-q-developer[bot] <208079219+amazon-q-developer[bot]@users.noreply.github.com>',
+        'Co-authored-by: gemini-code-assist[bot] <176961590+gemini-code-assist[bot]@users.noreply.github.com>',
+        'Generated with [Devin](https://cli.devin.ai/docs)',
+        '',
+    ].join('\n');
+
+    assert.equal(stripAiCommitAttribution(message), 'feat(api): add retry logic\n');
+});
+
+test('keeps human co-authors who share a name with an agent', () => {
+    const message = [
+        'fix(ui): correct spacing',
+        '',
+        'Co-authored-by: Devin Ivy <devin@example.com>',
+        'Co-authored-by: Jules Verne <jules@example.com>',
+        '',
+    ].join('\n');
+
+    assert.equal(stripAiCommitAttribution(message), message);
+});
+
+test('strips GitHub bot co-authors regardless of the numeric id', () => {
+    const message =
+        'chore(deps): bump packages\n\nCo-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>\n';
+
+    assert.equal(stripAiCommitAttribution(message), 'chore(deps): bump packages\n');
+});
+
 test('does not strip a body line that only mentions those tools', () => {
     const message =
         'fix(repo): document how Cursor attribution is stripped\n\nThe hook removes Claude and Codex trailers after git commit.\n';
