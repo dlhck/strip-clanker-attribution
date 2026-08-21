@@ -5,8 +5,8 @@
   "type": "module",
   "exports": "./strip-clanker-attribution.mjs",
   "bin": {
-    "strip-clanker-attribution": "./strip-clanker-attribution.mjs",
-    "strip-clanker-attribution-init": "./init.mjs"
+    "strip-clanker-attribution": "strip-clanker-attribution.mjs",
+    "strip-clanker-attribution-init": "init.mjs"
   },
   "files": [
     "strip-clanker-attribution.mjs",
