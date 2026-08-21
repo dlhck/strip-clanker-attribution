@@ -1,5 +1,5 @@
 {
-  "name": "strip-clanker-attribution",
+  "name": "@dlhck/strip-clanker-attribution",
   "version": "1.0.0",
   "description": "Strip Cursor, Claude, and Codex attribution from commit messages. Built for husky commit-msg hooks.",
   "type": "module",

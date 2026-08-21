@@ -15,7 +15,7 @@ It keeps everything else, including body text that merely mentions these tools.
 ## Install
 
 ```sh
-npm install --save-dev strip-clanker-attribution
+npm install --save-dev @dlhck/strip-clanker-attribution
 ```
 
 ## Usage with husky
@@ -48,7 +48,7 @@ Rewrites the file in place. Exits non-zero if no file is given.
 ## Programmatic use
 
 ```js
-import { stripAiCommitAttribution } from 'strip-clanker-attribution';
+import { stripAiCommitAttribution } from '@dlhck/strip-clanker-attribution';
 
 const clean = stripAiCommitAttribution(rawCommitMessage);
 ```
