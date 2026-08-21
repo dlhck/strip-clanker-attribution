@@ -22,6 +22,8 @@ jobs:
       # Trusted publishing requires npm CLI 11.5.1 or later
       - run: npm install -g npm@latest
 
+      - run: npm ci
+
       - run: npm test
 
       - name: Verify tag matches package version
